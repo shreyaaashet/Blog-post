@@ -1,5 +1,5 @@
 import {  Route, Routes, useNavigate } from "react-router-dom";
-
+import "./App.css"
 // components that would change
 import Home from "./Home/Home";
 import About from "./About/About";
@@ -76,7 +76,7 @@ function App() {
     const filteredResults=posts.filter(post=>
       ((post.body).toLowerCase()).includes(search.toLowerCase())
       || 
-      ((post.body).toLowerCase()).includes(search.toLowerCase())
+      ((post.title).toLowerCase()).includes(search.toLowerCase())
       
       );
       setSearchResult(filteredResults.reverse()); // as new / latest post should be on top
