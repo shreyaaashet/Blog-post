@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { Route, Router, Routes} from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes} from 'react-router-dom';
 
 
 
@@ -10,10 +10,10 @@ ReactDOM.render(
  
 <React.StrictMode>
     <Router>
-      <Routes>
+      {/* <Routes> */}
         {/* <Route path='/*' element={<App />}/> */}
         <App/>
-      </Routes>
+      {/* </Routes> */}
    </Router>
   </React.StrictMode>,
    document.getElementById('root'));

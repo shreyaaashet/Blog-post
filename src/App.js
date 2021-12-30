@@ -97,12 +97,12 @@ function App() {
       {/* outlet gets replaced by index */}
 
       <Route 
-      index element={<Home posts={setSearchResult} />}
+      index element={<Home posts={searchResult} />}
        />
 {/* ======================= */}
       <Route path='post'>
          {/* nesting starts */}
-         <Route element={
+         <Route index element={
           <NewPost
             handleSubmit={handleSubmit}
             postTitle={postTitle}
