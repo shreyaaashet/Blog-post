@@ -125,13 +125,17 @@ body {
   cursor: pointer;
 }
 
-.Home, .NewPost, .PostPage, .About, .Missing {
+.Home, .NewPost, .PostPage, .About,  .Missing {
   width: 100%;
   flex-grow: 1;
   padding: 1rem;
   overflow-y: auto;
   background-color: #fff;
 }
+ .Missing {
+   align-items: center;
+ }
+
 
 .post {
   margin-top: 1rem;

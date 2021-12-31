@@ -12,70 +12,92 @@ import { useEffect, useState } from "react";
 
 import Layout from "./Layout";
 import { format } from "date-fns";
+import api from './api/Posts'
 
 function App() {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: "My First Post",
-      datetime: "July 01, 2021 11:17:36 AM",
-      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!",
-    },
-    {
-      id: 2,
-      title: "My 2nd Post",
-      datetime: "July 01, 2021 11:17:36 AM",
-      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!",
-    },
-    {
-      id: 3,
-      title: "My 3rd Post",
-      datetime: "July 01, 2021 11:17:36 AM",
-      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!",
-    },
-    {
-      id: 4,
-      title: "My Fourth Post",
-      datetime: "July 01, 2021 11:17:36 AM",
-      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!",
-    },
-  ]);
+  const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const Navigate = useNavigate();
   // for new post:
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
+// for edited post n body 
+const [editTitle, setEditTitle] = useState("");
+const [editBody, setEditBody] = useState("");
+  // api 
+useEffect(()=>{
+  const fetchPosts= async()=>{
+    // in axios u dont need to use fetch n convert it into json string 
+    // axios will catch error automatically
 
+   try{
+   const response= await api.get('/posts');
+   if (response && response.data){
+     setPosts(response.data);
+   }
+   }
+  
+  catch (err) {
+   if (err.response) {
+    // Not in the 200 response range 
+    console.log(err.response.data);
+    console.log(err.response.status);
+    console.log(err.response.headers);
+  } else {
+    console.log(`Error: ${err.message}`);
+  }
+}
+}
 
+fetchPosts();
+}, [])
+  //   udating/edit post n title 
+  const handleEdit = async (id)=>{
 
-  const handleSubmit = (e) => {
+  }
+
+  const handleSubmit =  async (e) => {
     e.preventDefault();
     // we need to set id for new post 
     const id= posts.length ? posts[posts.length - 1].id +1 :1;
     const datetime=format(new Date(),'MMMM dd, yyyy pp');
     const newPost={id,title:postTitle,datetime,body:postBody};
-    const allPost=[...posts,newPost];
-    setPosts(allPost);
+    // axios addition using create of crud operations 
+    try{
+      const response= await api.post('/posts',newPost); // as we posting whtever getting submitted 
+     // we are sending the /posts mein posts n the newPosts as well to the axios api
+      const allPost=[...posts,response]; // as api  se jo posts we posted that is getting included
+      setPosts(allPost);
+     setPostTitle(""); // so that after we submit a post we dont hve to delete to the posttiltle const to create new one
+      setPostBody("");
+      Navigate("/");
+    } catch(err){
+      console.log(`Error:${err.message}`);
+    }
     
-    setPostTitle(""); // so that after we submit a post we dont hve to delete to the posttiltle const to create new one
-    setPostBody("");
-    Navigate("/");
     
   };
 
-  const handleDelete = (id) => {
-    const postList = posts.filter((post) => post.id !== id);
-    setPosts(postList);
-    // after deleting some thing it takes u back to home pg coz of navigate
-    Navigate("/");
+  const handleDelete = async (id) => {
+    try{
+      // since its not static data we will be deleting it for real by
+       await api.delete(`/posts/${id}`); // end point from where things will get deleted n then id of which u want to delete  
+      const postList = posts.filter((post) => post.id !== id);
+      setPosts(postList);
+      // after deleting some thing it takes u back to home pg coz of navigate
+      Navigate("/");
+    } catch (err){
+      console.log(`Error:${err.message}`);
+    }
+   
   };
 
   //  navbar search function: use using useeffect with posts n search as dependencie so that every new post added we get a rendered data
   useEffect(()=>{
-    const filteredResults=posts.filter(post=>
+    const filteredResults =posts.filter(post=>
       ((post.body).toLowerCase()).includes(search.toLowerCase())
-      || 
+                              || 
       ((post.title).toLowerCase()).includes(search.toLowerCase())
       
       );
