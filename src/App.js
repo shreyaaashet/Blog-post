@@ -54,7 +54,8 @@ fetchPosts();
 }, [])
   //   udating/edit post n title 
   const handleEdit = async (id)=>{
-
+    const datetime=format(new Date(),'MMMM dd, yyyy pp');
+    const updatedPost={id,title:editTitle,datetime,body:editBody};
   }
 
   const handleSubmit =  async (e) => {
@@ -96,7 +97,7 @@ fetchPosts();
   //  navbar search function: use using useeffect with posts n search as dependencie so that every new post added we get a rendered data
   useEffect(()=>{
     const filteredResults =posts.filter(post=>
-      ((post.body).toLowerCase()).includes(search.toLowerCase())
+      ((post.body).toLowerCase()).includes(search.toLowerCase()) 
                               || 
       ((post.title).toLowerCase()).includes(search.toLowerCase())
       
