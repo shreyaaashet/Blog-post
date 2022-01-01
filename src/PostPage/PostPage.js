@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 // useParams is a custom hook 
 // Link
 
-const PostPage = ({posts,handleDelete}) => {
+const PostPage = ({posts,handleDelete,}) => {
   const {id } = useParams();
   const post =posts.find(post=>(post.id).toString()=== id)// converting it toString so we can used === as id is also in string
     return (
@@ -14,7 +14,8 @@ const PostPage = ({posts,handleDelete}) => {
             <h1>{post.title}</h1>
             <p className='postDate'>{post.datetime}</p>
             <p className='postBody'>{post.body}</p>
-            <button onClick={()=>handleDelete(post.id)}>Delete post</button>
+            <Link to={`/edit/${post.id}`}><button className='EditButton'>Edit Post</button></Link>
+            <button className='DeleteButton' onClick={()=>handleDelete(post.id)}>Delete post</button>
             </>}
             {!post &&
             <>

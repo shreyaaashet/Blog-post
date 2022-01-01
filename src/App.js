@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import Layout from "./Layout";
 import { format } from "date-fns";
 import api from './api/Posts'
+import EditPost from "./EditPost";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -52,10 +53,21 @@ useEffect(()=>{
 
 fetchPosts();
 }, [])
-  //   udating/edit post n title 
+  //edit datetime n title/body n then update the posts
   const handleEdit = async (id)=>{
     const datetime=format(new Date(),'MMMM dd, yyyy pp');
     const updatedPost={id,title:editTitle,datetime,body:editBody};
+    try{
+      const response=await api.put(`/posts/${id}`, updatedPost) // to update the whole list we use put() n to update a specific fields we use patch()
+        // put where n wht data is being put 
+        
+        setPosts(posts.map(post=>post.id === id ? {...response.data} : post));// to check n make a new array of the updated post only n not include the existing old post n repeat the post  
+        setEditTitle("");
+        setEditBody("");
+        Navigate("/");
+      }catch{
+
+    }
   }
 
   const handleSubmit =  async (e) => {
@@ -133,13 +145,28 @@ fetchPosts();
             postBody={postBody}
             setPostBody={setPostBody}
           />}/>
-          {/* 2nd one */}
-          <Route
-        path=':id' 
-        element={<PostPage posts={posts} handleDelete={handleDelete} />}
-      />
+       
+          {/* 2rd one */}
+          <Route  path=':id' 
+        element={<PostPage posts={posts}  handleDelete={handleDelete} />} >
+        
+          </Route>
+      
+   
        {/* useparams ke liye it will be a const {id} as we hve menstion here */}
       </Route>
+          
+      <Route path='/edit/:id'>
+      <Route index element={
+          <EditPost
+            handleEdit={handleEdit}
+            setEditTitle={setEditTitle}
+            editBody={editBody}
+            setEditBody={setEditBody}
+            editTitle={editTitle}
+            posts={posts}
+          
+          />}/></Route>
     
        {/* ======================= */}
 
