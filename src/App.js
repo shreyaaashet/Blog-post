@@ -14,7 +14,8 @@ import Layout from "./Layout";
 import { format } from "date-fns";
 import api from './api/Posts'
 import EditPost from "./EditPost";
-
+import useWindowSize from "./Hooks/useWindowSize";
+ 
 function App() {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
@@ -26,6 +27,9 @@ function App() {
 // for edited post n body 
 const [editTitle, setEditTitle] = useState("");
 const [editBody, setEditBody] = useState("");
+
+//  costum hook
+const {width}=useWindowSize(); // only need the width 
   // api 
 useEffect(()=>{
   const fetchPosts= async()=>{
@@ -126,7 +130,7 @@ fetchPosts();
     <Routes>
       <Route
         path='/'
-        element={<Layout search={search}
+        element={<Layout search={search} width={width} 
          setSearch={setSearch} />}
       >
       {/* outlet gets replaced by index */}
