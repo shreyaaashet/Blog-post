@@ -2,10 +2,18 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 // this is a combination of updated post n post page where all posts are there therfore using useparams
+import  { useContext } from 'react'
+import DataContext from './context/DataContext';
 
-const EditPost = ({handleEdit,posts,
-    editTitle, setEditTitle,
-    editBody, setEditBody}) => {
+
+
+const EditPost = () => {
+        const {handleEdit}=useContext(DataContext);
+        const {posts}=useContext(DataContext);
+        const {setEditTitle}=useContext(DataContext);
+        const {editTitle}=useContext(DataContext);
+        const { editBody}=useContext(DataContext);
+        const {setEditBody}=useContext(DataContext);
         const {id } = useParams();
         const post =posts.find(post=>(post.id).toString()=== id)// converting it toString so we can used === as id is also in string
         useEffect(() => {

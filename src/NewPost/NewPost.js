@@ -1,7 +1,14 @@
 //  create new posts
 import React from 'react'
+import  { useContext } from 'react'
+import DataContext from '../context/DataContext';
 
-const NewPost = ({setPostBody,postBody, setPostTitle,  postTitle,handleSubmit}) => {
+const NewPost = () => {
+  const {setPostBody}=useContext(DataContext);
+  const {postBody}=useContext(DataContext);
+  const {setPostTitle}=useContext(DataContext);
+  const {postTitle}=useContext(DataContext);
+  const {handleSubmit}=useContext(DataContext);
     return (
      <main className='NewPost'>
          <h3>ADD NEW POST </h3>

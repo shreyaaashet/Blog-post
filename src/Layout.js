@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 
 
@@ -6,11 +6,17 @@ import { Outlet } from "react-router-dom";
 import Nav from "./Nav/Nav";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import useWindowSize from "./Hooks/useWindowSize";
+
+import DataContext from "./context/DataContext";
 
 
-const Layout = ({ search, setSearch ,title }) => {
-  const {width}=useWindowSize()
+
+
+
+const Layout = () => {
+  const {width}=useContext(DataContext);
+  const {search}=useContext(DataContext);
+  const {setSearch}=useContext(DataContext);
   return (
     <div className='App'>
       <Header title='BlOgFoRyOu' width={width}  />
