@@ -8,12 +8,8 @@ import DataContext from './context/DataContext';
 
 
 const EditPost = () => {
-        const {handleEdit}=useContext(DataContext);
-        const {posts}=useContext(DataContext);
-        const {setEditTitle}=useContext(DataContext);
-        const {editTitle}=useContext(DataContext);
-        const { editBody}=useContext(DataContext);
-        const {setEditBody}=useContext(DataContext);
+        const {handleEdit,posts,setEditTitle,editTitle,editBody,setEditBody}=useContext(DataContext);
+    
         const {id } = useParams();
         const post =posts.find(post=>(post.id).toString()=== id)// converting it toString so we can used === as id is also in string
         useEffect(() => {

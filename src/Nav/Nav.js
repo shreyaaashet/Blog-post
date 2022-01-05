@@ -4,8 +4,8 @@ import  { useContext } from 'react'
 import DataContext from '../context/DataContext';
 
 const Nav = () => {
-  const {search}=useContext(DataContext);
-  const {setSearch}=useContext(DataContext);
+  const {search,setSearch}=useContext(DataContext);
+ 
   return (
   
       

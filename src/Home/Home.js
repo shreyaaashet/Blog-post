@@ -5,16 +5,16 @@ import DataContext from '../context/DataContext';
 
 
 const Home = () => {
-    const {posts}=useContext(DataContext);
-    const {isLoading}=useContext(DataContext);
-    const {fetchError}=useContext(DataContext);
+   
+    const {isLoading,fetchError,searchResult}=useContext(DataContext);
+    
 
     return (
        <main className='Home'>
        {isLoading && <p className='statusMessage'>loading posts ...</p>}
        { !isLoading && fetchError && <p className='statusMessage' style={{color:"red"}}>{fetchError}</p>}
-       {!isLoading && !fetchError && posts.length ? (
-              <Feed posts={posts}/>
+       {!isLoading && !fetchError && searchResult.length ? (
+              <Feed posts={searchResult}/>
           ) :(<p className='statusMessage'  style={{marginTop:"5rem"}}>no posts to display... srry</p>)}
           
        </main>
