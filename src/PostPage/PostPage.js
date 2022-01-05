@@ -3,8 +3,12 @@ import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 // useParams is a custom hook 
 // Link
+import  { useContext } from 'react'
+import DataContext from '../context/DataContext';
 
-const PostPage = ({posts,handleDelete,}) => {
+const PostPage = () => {
+  const {posts}=useContext(DataContext);
+  const {handleDelete}=useContext(DataContext);
   const {id } = useParams();
   const post =posts.find(post=>(post.id).toString()=== id)// converting it toString so we can used === as id is also in string
     return (
