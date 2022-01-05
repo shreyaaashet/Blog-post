@@ -15,6 +15,8 @@ import { format } from "date-fns";
 import api from './api/Posts'
 import EditPost from "./EditPost";
 import useWindowSize from "./Hooks/useWindowSize";
+import useAxiosFetch from "./Hooks/useAxiosFetch";
+
  
 function App() {
   const [posts, setPosts] = useState([]);
@@ -28,35 +30,41 @@ function App() {
 const [editTitle, setEditTitle] = useState("");
 const [editBody, setEditBody] = useState("");
 
-//  costum hook
+//  custom hook
 const {width}=useWindowSize(); // only need the width 
-  // api 
-useEffect(()=>{
-  const fetchPosts= async()=>{
-    // in axios u dont need to use fetch n convert it into json string 
-    // axios will catch error automatically
-
-   try{
-   const response= await api.get('/posts');
-   if (response && response.data){
-     setPosts(response.data);
-   }
-   }
+// fetch Axios hook
+const {data,fetchError,isLoading} = useAxiosFetch('http://localhost:3000/posts'); // from where we get data
+ useEffect(() => {
+   setPosts(data)
+ }, [data])
   
-  catch (err) {
-   if (err.response) {
-    // Not in the 200 response range 
-    console.log(err.response.data);
-    console.log(err.response.status);
-    console.log(err.response.headers);
-  } else {
-    console.log(`Error: ${err.message}`);
-  }
-}
-}
+  // api 
+// useEffect(()=>{
+//   const fetchPosts= async()=>{
+//     // in axios u dont need to use fetch n convert it into json string 
+//     // axios will catch error automatically
 
-fetchPosts();
-}, [])
+//    try{
+//    const response= await api.get('/posts');
+//    if (response && response.data){
+//      setPosts(response.data);
+//    }
+//    }
+  
+//   catch (err) {
+//    if (err.response) {
+//     // Not in the 200 response range 
+//     console.log(err.response.data);
+//     console.log(err.response.status);
+//     console.log(err.response.headers);
+//   } else {
+//     console.log(`Error: ${err.message}`);
+//   }
+// }
+// }
+
+// fetchPosts();
+// }, [])
   //edit datetime n title/body n then update the posts
   const handleEdit = async (id)=>{
     const datetime=format(new Date(),'MMMM dd, yyyy pp');
@@ -136,7 +144,11 @@ fetchPosts();
       {/* outlet gets replaced by index */}
 
       <Route 
-      index element={<Home posts={searchResult} />}
+      index element={<Home 
+        posts={searchResult}
+        fetchError={fetchError}
+        isLoading={isLoading}
+        />}
        />
 {/* ======================= */}
       <Route path='post'>

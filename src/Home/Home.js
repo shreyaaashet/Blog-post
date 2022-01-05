@@ -2,12 +2,15 @@ import React from 'react'
 import Feed from '../Feed'
 
 
-const Home = ({posts}) => {
+const Home = ({posts,isLoading,fetchError}) => {
     return (
-       <main className='Main'>
-          {posts.length ?(
+       <main className='Home'>
+       {isLoading && <p className='statusMessage'>loading posts ...</p>}
+       { !isLoading && fetchError && <p className='statusMessage' style={{color:"red"}}>{fetchError}</p>}
+       {!isLoading && !fetchError && posts.length ? (
               <Feed posts={posts}/>
-          ) :(<p style={{marginTop:"5rem"}}>"no posts to display... srry"</p>)}
+          ) :(<p className='statusMessage'  style={{marginTop:"5rem"}}>no posts to display... srry</p>)}
+          
        </main>
     )
 }
